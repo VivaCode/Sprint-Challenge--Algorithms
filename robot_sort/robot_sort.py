@@ -93,11 +93,40 @@ class SortingRobot:
         return self._light == "ON"
 
     def sort(self):
-        """
-        Sort the robot's list.
-        """
-        # Fill this out
-        pass
+        
+       # set the light on to start loop
+        self.set_light_on()
+
+        while self.light_is_on() is True:
+
+            # to exit the loop light must be off 
+            self.set_light_off()
+
+            while self.can_move_right():
+               # swap item move right
+                self.swap_item()
+                self.move_right()
+
+                # compare_item for holding > in front 
+                # swap - move left - drop - move right - light on to restart.
+                if self.compare_item() == 1:
+                    self.swap_item()
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+                    self.set_light_on()
+
+                # otherwise move left - drop - keep going
+                else:
+                    self.move_left()
+                    self.swap_item()
+                    self.move_right()
+
+            # as long as the light is on start a loop to contuine to move left.
+            if self.light_is_on():
+                while self.can_move_left():
+                    self.move_left()
+
 
 
 if __name__ == "__main__":
